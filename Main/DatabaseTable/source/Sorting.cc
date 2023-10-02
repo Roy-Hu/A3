@@ -42,7 +42,9 @@ void mergeIntoFile (MyDB_TableReaderWriter &sortIntoMe, vector <MyDB_RecordItera
 	priority_queue <MyDB_RecordIteratorAltPtr, vector <MyDB_RecordIteratorAltPtr>, RecordInIterComparator> priorityQueue(myComparator);
 
 	for (auto iter : mergeUs) {
-		priorityQueue.push(iter);
+		if (iter->advance()) {
+			priorityQueue.push(iter);
+		}
 	}
 
 	while (priorityQueue.size() != 0) {
