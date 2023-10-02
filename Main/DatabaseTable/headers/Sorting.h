@@ -6,6 +6,32 @@
 #include "MyDB_TableRecIterator.h"
 #include "MyDB_TableRecIteratorAlt.h"
 #include "MyDB_TableReaderWriter.h"
+#include "MyDB_Record.h"
+#include <iostream>
+
+class RecordInIterComparator {
+
+public:
+
+	RecordInIterComparator (function <bool ()> comparatorIn, MyDB_RecordPtr lhsIn,  MyDB_RecordPtr rhsIn) {
+		comparator = comparatorIn;
+		lhs = lhsIn;
+		rhs = rhsIn;
+	}
+
+	bool operator () (MyDB_RecordIteratorAltPtr lIrer, MyDB_RecordIteratorAltPtr rIter) {
+		lIrer->getCurrent(lhs);
+		rIter->getCurrent (rhs);
+		return !comparator ();	
+	}
+
+private:
+
+	function <bool ()> comparator;
+	MyDB_RecordPtr lhs;
+	MyDB_RecordPtr rhs;
+
+};
 
 // performs a TPMMS of the table sortMe.  The results are written to sortIntoMe.  The run 
 // size for the first phase of the TPMMS is given by runSize.  Comarisons are performed 

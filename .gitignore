@@ -1,0 +1,7 @@
+.vscode
+core*
+*.o
+*.bin
+catFile
+sortUnitTest
+*.dblite
